@@ -1,0 +1,451 @@
+To locate a software installation:
+$ whereis mvn
+or
+$ readlink -f /usr/bin/java
+---------------------------
+add java home to /etc/environment
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+echo $JAVA_HOME
+javac -version
+----------------------------
+sudo apt update
+sudo npm install -g nodemon
+----------------------------
+docker run hello-install
+Configure Docker to start on boot with systemd 
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+To disable this service:
+sudo systemctl disable docker.service
+sudo systemctl disable containerd.service
+------------------------------------
+mongodb installation
+first this library might need to be installed:
+sudo wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+
+Then:
+sudo apt-get install wget gpg
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | gpg --dearmor > packages.mongodb.gpg
+sudo install -D -o root -g root -m 644 packages.mongodb.gpg /etc/apt/keyrings/packages.mongodb.gpg
+echo "deb [ arch=amd64,arm64 signed-by=/etc/apt/keyrings/packages.mongodb.gpg] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+rm -f packages.mongodb.gpg
+sudo apt-get install -y mongodb-org
+
+To test the mongodv version:
+mongod --version
+
+This is to run mongo service:
+sudo systemctl status mongod
+sudo systemctl start mongod
+sudo systemctl stop mongod
+mongo --eval 'db.runCommand({ connectionStatus: 1 })' (to connect to the database)
+sudo ss -pnltu | grep 27017 (running on default port)
+sudo systemctl enable mongod (start on boot)
+mongosh (to access mongoDB)
+> show dbs
+> use employees
+> db (confirm the database you can currently in)
+db.createUser (method allows you to create a new user in a database)
+db.createUser(
+  {
+    user: "cherry",
+    pwd: "some_password",
+    roles: [ { role: "readWrite", db: "employees" } ]
+  }
+)
+
+db.getUsers(); (list the users)
+> show users (list the users)
+
+db.dropUser("cherry", {w: "majority", wtimeout: 4000}) (drop the user)
+
+To install mongodb comapass:
+wget https://downloads.mongodb.com/compass/mongodb-compass_1.28.1_amd64.deb (download)
+sudo apt install ./mongodb-compass_1.34.2_amd64.deb
+----------------------------------------
+ To check the ubuntu version:
+ lsb_release -dc
+ sudo apt remove libssl1.1
+ 
+ ---------------------------------
+ Update the system
+-----------------
+sudo apt update
+sudo apt upgrade -y
+
+Angular installation
+-----------------------------
+npm install --prefix /opt/angular-8.0 @angular/cli@latest
+
+Java location
+---------------------
+type -p java (shows where java has been installed)
+
+Gitlab installation
+------------------
+sudo EXTERNAL_URL="http://127.0.0.1" apt-get install gitlab-ce
+sudo gitlab-ctl restart
+sudo nano /etc/gitlab/gitlab.rb
+sudo gitlab-ctl reconfigure
+sudo ufw enable
+sudo ufw allow OpenSSH
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw status
+sudo ufw allow from any to any port 5050 proto tcp
+sudo lsof -i -P -n | grep LISTEN (To check if the port is already been used or not)
+
+Gitlab uninstallation
+-----------------------
+sudo apt-get remove gitlab-ce
+sudo rm -rf /var/opt/gitlab
+sudo pkill -f gitlab
+sudo rm -rf /opt/gitlab
+sudo rm -rf /etc/gitlab
+sudo rm -rf /var/opt/gitlab
+sudo rm -rf /etc/apt/sources.list.d/gitlab_gitlab-ce.list
+
+Jenkins
+-------
+systemctl start jenkins
+systemctl stop jenkins
+systemctl status jenkins
+
+Gitlab
+------
+sudo gitlab-ctl stop
+sudo gitlab-ctl start
+sudo gitlab-ctl tail
+sudo gitlab-ctl status
+
+Firewall settings
+-----------------
+sudo ufw status
+sudo ufw enable
+
+Git
+----------------
+git --version
+git config --global user.name "noor"
+git config --global user.email "anoor@mail.com"
+git remote add origin "git@github.com:abdun/Github-CharityFund.git"
+git remote set-url origin git@github.com:abdun/Github-CharityFund.git
+git pull origin master
+
+or you can clone it by using the following command:
+git clone https://github.com/abdun/Github-CharityFund.git
+
+git init
+git add test.py
+git status
+
+----------------------------------
+How to add a SSH key to Github
+Use this command to create a key: ssh-keygen -t rsa -C "anoor@mail.com"
+Use this command to add private key: ssh-add my_key
+Then copy the key to Github SSH key
+
+------------------------------------
+
+https://www.youtube.com/watch?v=s73nhwYBtzE
+pipeline {
+  agents any
+  stages {
+     stage ('Compile Stage') {
+        steps {
+           withMaven(maven : 'maven_3_5_0') {
+               sh 'mvn clean compile'
+          }
+        }
+     }
+     stage ('Testing Stage') {
+        steps {
+           withMaven(maven : 'maven_3_5_0') {
+               sh 'mvn test'
+          }
+        }
+     }
+     stage ('Deploy Stage') {
+        steps {
+           withMaven(maven : 'maven_3_5_0') {
+               sh 'mvn deploy'
+          }
+        }
+     }
+
+  }
+}
+  
+--------------------------------------
+Dbeaver installation:
+curl -fsSL https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/dbeaver.gpg
+echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
+sudo apt update
+sudo apt install dbeaver-ce
+
+To update Dbeaver:
+sudo apt update && sudo apt upgrade
+
+To uninstall Dbeaver:
+sudo apt autoremove --purge dbeaver-ce
+
+To run Dbeaver:
+dbeaver-ce
+-----------------------------------------
+postgresql installation:
+# Create the file repository configuration:
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+# Import the repository signing key:
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+# Update the package lists:
+sudo apt-get update
+
+# Install the latest version of PostgreSQL.
+# If you want a specific version, use 'postgresql-12' or similar instead of 'postgresql':
+sudo apt-get -y install postgresql
+
+-------------------------------------------
+Starting postgresql and other commands:
+sudo systemctl enable postgresql.service
+sudo systemctl start postgresql.service
+sudo systemctl status postgresql.service
+sudo systemctl stop postgresql.service
+
+service postgresql status
+sudo -u postgres psql
+
+on the screen it will show in the following format:
+postgres=#
+Then type:
+postgres=# \conninfo (which will display You are connected to database "postgres" as user "postgres" via socket in "/var/run/postgresql" at port "5432".)
+postgres=# \l
+To quit from postgresql:
+postgres=# \q
+---------------------------
+postgres=# \du
+Type:
+To change password:
+postgres=# \password postgres
+Enter new password for user "postgres"
+
+UserId: postgres
+Password: postgres
+------------------------------------------
+To list any process listening to the port 8080:
+lsof -i :<portNumber> | grep LISTEN
+or
+lsof -i:8080
+
+To kill a listening port:
+fuser -n tcp -k 9000
+or
+
+Killing process at certain port:
+kill $(lsof -t -i:8080)
+or
+kill -9 78960
+kill -9 <pid_value>
+--------------------------------
+Actuator:
+http://localhost:8081/actuator/health
+or
+http://192.168.1.12:9000/actuator/health
+
+---------------------------------
+Eureka server:
+http://localhost:8761/
+---------------------------------
+Listening port command
+sudo netstat -tulpn | grep LISTEN
+t: display TCP sockets
+n: display the numeric port number
+l: display listening sockets
+p: Display the process using the socket
+
+ss -tulpn (Socket Statistics)
+
+--------------------------------
+VM arguments for spring boot application:
+-Dspring.profiles.active=local
+-Dserver.port=8090
+-------------------------------------
+To find the ip address:
+ifconfig
+or
+hostname -I
+------------------------------------
+Which version of linux has been installed:
+lsb_release -a
+-----------------------------------
+Install Node.js and npm:
+cd ~
+curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
+Install Node.js and NPM on Ubuntu:
+sudo apt install nodejs
+sudo apt install npm
+-----------------------------------
+Update node to 16.9:
+npm cache clean -f 
+sudo npm install -g n
+sudo n latest 
+--------------------------------
+Install ReactJS package:
+sudo npm install -g create-react-app
+
+Verify the installed version of create-react-app with the following command:
+create-react-app --version
+
+Create A New ReactJS Application:
+sudo create-react-app myreactapp
+
+Start ReactJS Application
+cd myreactapp 
+npm start
+http://localhost:3000 
+
+Create a Systemd service:
+sudo nano /lib/systemd/system/react.service
+
+Save and close the file and then reload the systemd daemon with the following command:
+sudo systemctl daemon-reload
+
+Then start the ReactJS service and activate it at system startup with the following command:
+sudo systemctl start react
+sudo systemctl enable react
+
+check the status of the ReactJS app with the following command:
+sudo systemctl status react
+---------------------------------
+Installing webpack for react application:
+cd bluerang
+npm install webpack webpack-cli --save-dev
+
+Create react in type script extension:
+npm install --save-dev typescript ts-loader
+
+Install webpack plugin:
+npm install html-webpack-plugin --save-dev
+Add configuration file:
+touch webpack.config.js
+
+
+Install Babel:
+npm install @babel/core babel-loader --save-dev
+Babel is a transpiler so we need to tell it what to transpile, we do this using presets:
+npm install @babel/preset-env @babel/preset-react --save-dev 
+
+Install sass locally:
+npm i sass --save-dev
+
+Install sass globally:
+npm i -g sass
+
+Install sass-loader:
+npm install --save-dev sass-loader
+
+Install url-loader:
+npm install url-loader --save-dev
+
+Install css loader"
+npm install --save-dev css-loader
+
+Style loader:
+npm install --save-dev style-loader
+
+To read environment variable from .env:
+npm install dotenv-webpack --save-dev
+
+A plugin for webpack that automatically includes an html page:
+npm install --save-dev html-webpack-plugin
+
+Install primeflex:
+npm install primeflex
+
+Build after webpack installation:
+npm run build
+
+Download UI components:
+npm install primereact primeicons
+
+Run react app:
+npm run serve
+
+React application in typescript:
+sudo npx create-react-app bluerang --template typescript
+
+For additinal packages:
+npm install -D typescript ts-loader @types/node @types/react @types/react-dom
+or
+npm install --save-dev typescript ts-loader
+
+For routing to different component:
+npm install --save react-router-dom
+
+----------------------------------
+Removing Node.js
+sudo apt remove nodejs
+
+To deleve the configuration:
+sudo apt purge nodejs
+
+Remove nmp:
+sudo apt-get remove npm
+sudo apt autoremove
+-------------------------------------
+Installing angular:
+npm install @angular/cli --location=global
+ng version
+
+Create a New Angular Application:
+ng new hello-world
+cd hello-world
+ng serve
+By default angular application run on port 4200:
+http://localhost:4200
+
+Can be changee the host and port for running the Angular application by providing –host and –port command line arguments:
+ng serve --host 0.0.0.0 --port 3001
+
+-----------------------------------------
+Port forwarding rule:
+Host IP:    192.168.1.12 (This is the Ubuntu OS)
+Host Port:  8081, 9000   (Application running)
+Guest IP:   10.0.2.15    (This is the Virtual box Windows OS)
+Guest Port: 8081, 9000   (The application running on Host Port)
+------------------------------------------
+How to clear cached:
+sudo du -sh/var/cache/apt/archives
+sudo apt-get clean --dry-run
+sudo apt-get clean
+
+To delete files"
+sudo rm -rf
+--------------------------------------
+How to install git on ubunto:
+sudo apt install git
+git --version
+
+Set your global user name and email:
+git config --global user.name "Abdun"
+git config --global user.email "anoor@mail.com"
+
+Create a new repository:
+git init
+git add file_name
+git commit -m "message"
+git remote add origin https://github.com/abdun/actuator.git
+git push -u origin master
+
+push an existing repository:
+git remote add origin https://github.com/abdun/actuator.git
+git branch -M master
+git push -u origin master
+-------------------------------------
+
+
+
+
