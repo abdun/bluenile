@@ -1,0 +1,31 @@
+.prof-left-mergin {
+    margin-left: 300px;
+    padding:5px;
+    
+  }
+
+
+.prof-border-style {
+    background-color: #ffffff;
+    height: 20px;
+    border: 0px solid  white; 
+      
+}
+
+.prof-input-length {
+   width: 310px;
+}
+
+.prof-gap { 
+    height: 80px;
+    border: 0px solid #ffffff;
+}
+
+.prof-space { 
+    padding:4px;
+}
+
+.prof-image-left-mergin {
+    margin-left: 200px;
+    padding:5px;
+}
